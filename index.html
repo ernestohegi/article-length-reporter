@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Article Length Reporter</title>
+        <link rel="stylesheet" href="app/styles/main.css" media="screen" title="no title" charset="utf-8">
+    </head>
+    <body>
+        <header class="reporter__container">
+            <section class="reporter"></section>
+        </header>
+
+        <script src="app/scripts/article-length-reporter.js"></script>
+        <script>
+            articleLengthReporter.init();
+            articleLengthReporter.report({
+                scrollableElement: 'body',
+                reporter: '.reporter'
+            });
+        </script>
+    </body>
+</html>
