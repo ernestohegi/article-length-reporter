@@ -1,1 +1,1 @@
-# article-length-reporter
+# reading-progress-reporter
