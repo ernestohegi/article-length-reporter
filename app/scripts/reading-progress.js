@@ -7,6 +7,7 @@ var readingProgress = (function () {
         MAX_PERCENT         = 100;
 
     var body = document.querySelector(BODY_SELECTOR),
+        article,
         reporter;
 
     var handleScroll = function (e) {
@@ -25,7 +26,7 @@ var readingProgress = (function () {
     };
 
     var getElementHeight = function (element) {
-        return element.offsetHeight;
+        return element.offsetHeight + 40;
     };
 
     var getContainerElementWidth = function (element) {
@@ -55,6 +56,7 @@ var readingProgress = (function () {
             bindEvents();
         },
         report: function report (settings) {
+            article = document.querySelector(settings.article);
             reporter = document.querySelector(settings.reporter);
         }
     };

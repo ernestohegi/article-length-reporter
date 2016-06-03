@@ -4,12 +4,22 @@
 
 html,
 body {
-    height: 1000%;
+    height: 100%;
 }
 
+p,
 body {
     padding: 0;
     margin: 0;
+}
+
+.text-container {
+    padding: 20px 40px;
+    font-size: 40px;
+}
+
+.text-paragraph {
+    padding: 20px;
 }
 
 .reporter__container {
