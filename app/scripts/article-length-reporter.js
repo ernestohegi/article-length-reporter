@@ -7,7 +7,6 @@ var articleLengthReporter = (function () {
         MAX_PERCENT         = 100;
 
     var body = document.querySelector(BODY_SELECTOR),
-        article,
         reporter;
 
     var handleScroll = function (e) {
@@ -54,7 +53,6 @@ var articleLengthReporter = (function () {
             bindEvents();
         },
         report: function report (settings) {
-            article = document.querySelector(settings.scrollableElement);
             reporter = document.querySelector(settings.reporter);
         }
     };
