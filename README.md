@@ -1,1 +1,1 @@
-# reading-progress-reporter
+# reading-progress
