@@ -1,48 +1,56 @@
 var articleLengthReporter = (function () {
     'use strict';
 
-    var body,
-        article,
-        reporter;
-
     var BODY_SELECTOR       = 'body',
         SCROLL_EVENT_NAME   = 'scroll',
         MEASUREMENT_UNIT    = 'px',
         MAX_PERCENT         = 100;
 
+    var body = document.querySelector(BODY_SELECTOR),
+        article,
+        reporter;
+
     var handleScroll = function (e) {
-        reporter.style.width = getReporterWidth(
+        if (reporter === undefined) {
+            return false;
+        }
+
+        reporter.style.width = getReadingProgress(
             calculateScrolledPercentage(article, body.scrollTop),
-            getElementWidth(body)
+            getContainerElementWidth(reporter)
         );
     };
 
     var bindEvents = function () {
-        window.addEventListener(SCROLL_EVENT_NAME, handleScroll, false);
+        window.addEventListener(SCROLL_EVENT_NAME, handleScroll);
     };
 
     var getElementHeight = function (element) {
         return element.offsetHeight;
     };
 
-    var getElementWidth = function (element) {
-        return element.offsetWidth;
+    var getContainerElementWidth = function (element) {
+        return element.parentNode.offsetWidth;
     };
 
-    var getReporterWidth = function (percentageScrolled, reporterParentWidth) {
+    var getReadingProgress = function (percentageScrolled, reporterParentWidth) {
         return ((percentageScrolled * reporterParentWidth) / MAX_PERCENT) + MEASUREMENT_UNIT;
     };
 
     var calculateScrolledPercentage = function (element, amountScrolled) {
+        var scrolledPercentage = (amountScrolled * MAX_PERCENT) / getElementHeight(element);
+
+        if (scrolledPercentage > 0 && scrolledPercentage < MAX_PERCENT) {
+            scrolledPercentage += 1;
+        }
+
         return Math.ceil(
-            (amountScrolled * MAX_PERCENT) / getElementHeight(element)
+            scrolledPercentage
         );
     };
 
     return {
         init: function () {
-            body = document.querySelector(BODY_SELECTOR);
-
             bindEvents();
         },
         report: function report (settings) {
