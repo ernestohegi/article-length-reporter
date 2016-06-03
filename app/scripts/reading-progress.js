@@ -1,4 +1,4 @@
-var articleLengthReporter = (function () {
+var readingProgress = (function () {
     'use strict';
 
     var BODY_SELECTOR       = 'body',
