@@ -39,6 +39,8 @@ var readingProgress = (function () {
     var calculateScrolledPercentage = function (element, amountScrolled) {
         var scrolledPercentage = (amountScrolled * MAX_PERCENT) / getElementHeight(element);
 
+        // The script never gets to 100%, this is a small fix.
+        // The problem needs further investigation.
         if (scrolledPercentage > 0 && scrolledPercentage < MAX_PERCENT) {
             scrolledPercentage += 1;
         }
