@@ -1,7 +1,8 @@
 var readingProgress = (function () {
     'use strict';
 
-    var SCROLL_EVENT_NAME   = 'scroll',
+    var REPORTER_SELECTOR   = '.reporter',
+        SCROLL_EVENT_NAME   = 'scroll',
         MEASUREMENT_UNIT    = 'px',
         MAX_PERCENT         = 100;
 
@@ -33,7 +34,7 @@ var readingProgress = (function () {
 
     var handleScroll = function (e) {
         var scrollableElement = e.currentTarget;
-        var reporter = scrollableElement.previousElementSibling.querySelector('.reporter');
+        var reporter = scrollableElement.previousElementSibling.querySelector(REPORTER_SELECTOR);
 
         reporter.style.width = getReadingProgress(
             calculateScrolledPercentage(scrollableElement, scrollableElement.scrollTop),
