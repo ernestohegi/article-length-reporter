@@ -129,11 +129,13 @@
 
         <script src="app/scripts/reading-progress.js"></script>
         <script>
-            readingProgress.report({
+            readingProgress.initialize({
                 main: '.text-container',
                 reporter: '.reporter',
                 scroller: '.text__content'
             });
+
+            readingProgress.report();
         </script>
     </body>
 </html>

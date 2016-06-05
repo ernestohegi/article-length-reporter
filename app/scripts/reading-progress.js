@@ -1,10 +1,16 @@
 var readingProgress = (function () {
     'use strict';
 
-    var REPORTER_SELECTOR   = '.reporter',
-        SCROLL_EVENT_NAME   = 'scroll',
-        MEASUREMENT_UNIT    = 'px',
-        MAX_PERCENT         = 100;
+    var SCROLL_EVENT_NAME                   = 'scroll',
+        MEASUREMENT_UNIT                    = 'px',
+        MAX_PERCENT                         = 100,
+        REPORTER_NOT_INITIALIZED_MESSAGE    = 'Please, initialize first the reading progress object.';
+
+    var mainElementSelector,
+        reporterSelector,
+        scrollerSelector;
+
+    var initialized = false;
 
     var getScrollableElementHeight = function (element) {
         return element.scrollHeight;
@@ -34,7 +40,7 @@ var readingProgress = (function () {
 
     var handleScroll = function (e) {
         var scrollableElement = e.currentTarget;
-        var reporter = scrollableElement.previousElementSibling.querySelector(REPORTER_SELECTOR);
+        var reporter = scrollableElement.previousElementSibling.querySelector(reporterSelector);
 
         reporter.style.width = getReadingProgress(
             calculateScrolledPercentage(scrollableElement, scrollableElement.scrollTop),
@@ -47,11 +53,23 @@ var readingProgress = (function () {
     };
 
     return {
-        report: function report (settings) {
-            var mainElement = document.querySelectorAll(settings.main);
+        initialize: function (settings) {
+            mainElementSelector = settings.main;
+            scrollerSelector = settings.scroller;
+            reporterSelector = settings.reporter;
+
+            initialized = true;
+        },
+        report: function () {
+            if (initialized === false) {
+                console.log(REPORTER_NOT_INITIALIZED_MESSAGE);
+                return;
+            }
+
+            var mainElement = document.querySelectorAll(mainElementSelector);
 
             Array.prototype.slice.call(mainElement).map(function (element) {
-                bindScrollEvent(element.querySelector(settings.scroller));
+                bindScrollEvent(element.querySelector(scrollerSelector));
             });
         }
     };
