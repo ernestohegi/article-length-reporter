@@ -1,32 +1,12 @@
 var readingProgress = (function () {
     'use strict';
 
-    var BODY_SELECTOR       = 'body',
-        SCROLL_EVENT_NAME   = 'scroll',
+    var SCROLL_EVENT_NAME   = 'scroll',
         MEASUREMENT_UNIT    = 'px',
         MAX_PERCENT         = 100;
 
-    var body = document.querySelector(BODY_SELECTOR),
-        article,
-        reporter;
-
-    var handleScroll = function (e) {
-        if (reporter === undefined) {
-            return false;
-        }
-
-        reporter.style.width = getReadingProgress(
-            calculateScrolledPercentage(article, body.scrollTop),
-            getContainerElementWidth(reporter)
-        );
-    };
-
-    var bindEvents = function () {
-        window.addEventListener(SCROLL_EVENT_NAME, handleScroll);
-    };
-
-    var getElementHeight = function (element) {
-        return element.offsetHeight + 40;
+    var getScrollableElementHeight = function (element) {
+        return element.scrollHeight;
     };
 
     var getContainerElementWidth = function (element) {
@@ -38,26 +18,42 @@ var readingProgress = (function () {
     };
 
     var calculateScrolledPercentage = function (element, amountScrolled) {
-        var scrolledPercentage = (amountScrolled * MAX_PERCENT) / getElementHeight(element);
+        var scrolledPercentage = (amountScrolled * MAX_PERCENT) / getScrollableElementHeight(element);
 
         // The script never gets to 100%, this is a small fix.
         // The problem needs further investigation.
         if (scrolledPercentage > 0 && scrolledPercentage < MAX_PERCENT) {
-            scrolledPercentage += 1;
+            scrolledPercentage += 1.8;
         }
+
+        console.log(scrolledPercentage);
 
         return Math.ceil(
             scrolledPercentage
         );
     };
 
+    var handleScroll = function (e) {
+        var scrollableElement = e.currentTarget;
+        var reporter = scrollableElement.previousElementSibling.querySelector('.reporter');
+
+        reporter.style.width = getReadingProgress(
+            calculateScrolledPercentage(scrollableElement, scrollableElement.scrollTop),
+            getContainerElementWidth(reporter)
+        );
+    };
+
+    var bindScrollEvent = function (element) {
+        element.addEventListener(SCROLL_EVENT_NAME, handleScroll);
+    };
+
     return {
-        init: function () {
-            bindEvents();
-        },
         report: function report (settings) {
-            article = document.querySelector(settings.article);
-            reporter = document.querySelector(settings.reporter);
+            var mainElement = document.querySelectorAll(settings.main);
+
+            Array.prototype.slice.call(mainElement).map(function (element) {
+                bindScrollEvent(element.querySelector(settings.scroller));
+            });
         }
     };
 })();

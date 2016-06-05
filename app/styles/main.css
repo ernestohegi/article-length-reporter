@@ -13,9 +13,30 @@ body {
     margin: 0;
 }
 
+.container {
+    display: flex;
+    height: 100%;
+    padding: 10px;
+}
+
 .text-container {
     padding: 20px 40px;
     font-size: 40px;
+    position: relative;
+    flex: 1 auto;
+    overflow: hidden;
+    height: 100%;
+    border: 1px solid pink;
+    margin-right: 10px;
+}
+
+.text-container:last-child {
+    margin-right: 0;
+}
+
+.text__content {
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .text-paragraph {
@@ -23,10 +44,12 @@ body {
 }
 
 .reporter__container {
-    position: fixed;
+    position: absolute;;
     width: 100%;
     height: 20px;
     background: #CCC;
+    left: 0;
+    top: 0;
 }
 
 .reporter {
