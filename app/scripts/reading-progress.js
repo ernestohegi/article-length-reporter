@@ -26,8 +26,6 @@ var readingProgress = (function () {
             scrolledPercentage += 1.8;
         }
 
-        console.log(scrolledPercentage);
-
         return Math.ceil(
             scrolledPercentage
         );
